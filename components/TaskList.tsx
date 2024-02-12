@@ -6,9 +6,11 @@ import TaskRow from "./TaskRow";
 export default function TaskList({
   tasks,
   deleteTask,
+  checkTask,
 }: {
   tasks: Task[];
-  deleteTask: (index: number) => void;
+  deleteTask: (number: number) => void;
+  checkTask: (number: number) => void;
 }) {
   return (
     <div className="flex flex-col gap-2">
@@ -18,6 +20,7 @@ export default function TaskList({
             key={task.id}
             task={task}
             deleteTask={deleteTask}
+            checkTask={checkTask}
             index={index}
           />
         ))}

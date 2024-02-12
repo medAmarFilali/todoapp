@@ -52,6 +52,19 @@ export default function Home() {
     setCurrentTasks(newTasks);
   };
 
+  const checkTask = (num: number) => {
+    let prevTasks = JSON.parse(JSON.stringify(currentTasks)); // Create a deep copy
+
+    // Look for the object in our array
+    const chosenTaskIndex = prevTasks.findIndex((el: Task) => el.id === num);
+
+    prevTasks[chosenTaskIndex].done = !prevTasks[chosenTaskIndex].done;
+
+    setCurrentTasks(prevTasks);
+  };
+
+  console.log("CURRENT TASKS: ", currentTasks);
+
   return (
     <main className="container mx-auto">
       <div className="flex justify-center mt-4">
@@ -66,7 +79,11 @@ export default function Home() {
           <Button onClick={handleAddTask}>Add Item</Button>
         </div>
         <div className="mt-4">
-          <TaskList tasks={currentTasks} deleteTask={deleteTask} />
+          <TaskList
+            tasks={currentTasks}
+            deleteTask={deleteTask}
+            checkTask={checkTask}
+          />
         </div>
       </div>
     </main>
