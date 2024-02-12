@@ -6,64 +6,12 @@ import { Button } from "@/components/ui/button";
 import Heading from "@/components/Heading";
 import { Input } from "../components/ui/input";
 import TaskList from "@/components/TaskList";
-
-export type Task = {
-  id: number;
-  name: string;
-  done: boolean;
-};
+import { Task } from "@/types";
+import { useTasks } from "@/providers/TasksProvider";
 
 export default function Home() {
+  const { handleAddTask } = useTasks();
   const [name, setName] = React.useState<string>("");
-  const [currentTasks, setCurrentTasks] = React.useState<Task[]>([
-    { id: 0, name: "Buy bread", done: false },
-    {
-      id: 1,
-      name: "Drink water",
-      done: false,
-    },
-    {
-      id: 2,
-      name: "Complete Code",
-      done: false,
-    },
-    { id: 3, name: "Start business", done: false },
-  ]);
-
-  const handleAddTask = () => {
-    const prevTasks = JSON.parse(JSON.stringify(currentTasks));
-
-    const newTask = {
-      id: prevTasks.length,
-      name: name,
-      done: false,
-    };
-
-    const newTasks = [...prevTasks, newTask];
-
-    setCurrentTasks(newTasks);
-  };
-
-  const deleteTask = (index: number) => {
-    const prevTasks = JSON.parse(JSON.stringify(currentTasks));
-
-    const newTasks = prevTasks.filter((task: Task) => task.id !== index);
-
-    setCurrentTasks(newTasks);
-  };
-
-  const checkTask = (num: number) => {
-    let prevTasks = JSON.parse(JSON.stringify(currentTasks)); // Create a deep copy
-
-    // Look for the object in our array
-    const chosenTaskIndex = prevTasks.findIndex((el: Task) => el.id === num);
-
-    prevTasks[chosenTaskIndex].done = !prevTasks[chosenTaskIndex].done;
-
-    setCurrentTasks(prevTasks);
-  };
-
-  console.log("CURRENT TASKS: ", currentTasks);
 
   return (
     <main className="container mx-auto">
@@ -76,14 +24,10 @@ export default function Home() {
             placeholder="Write item..."
             onChange={(e) => setName(e.target.value)}
           />
-          <Button onClick={handleAddTask}>Add Item</Button>
+          <Button onClick={() => handleAddTask(name)}>Add Item</Button>
         </div>
         <div className="mt-4">
-          <TaskList
-            tasks={currentTasks}
-            deleteTask={deleteTask}
-            checkTask={checkTask}
-          />
+          <TaskList />
         </div>
       </div>
     </main>

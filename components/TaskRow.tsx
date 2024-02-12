@@ -1,21 +1,14 @@
 "use client";
 
 import { X } from "lucide-react";
-import { Task } from "../app/page";
+import { Task } from "@/types";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
+import { useTasks } from "@/providers/TasksProvider";
 
-export default function TaskRow({
-  task,
-  deleteTask,
-  index,
-  checkTask,
-}: {
-  task: Task;
-  deleteTask: (number: number) => void;
-  index: number;
-  checkTask: (id: number) => void;
-}) {
+export default function TaskRow({ task }: { task: Task }) {
+  const { checkTask, deleteTask } = useTasks();
+
   return (
     <div className="p-4 border border-slate-100 rounded-md ">
       <div className="flex justify-between items-center">
